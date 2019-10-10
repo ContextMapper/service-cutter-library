@@ -7,7 +7,7 @@ The original tool repository is located under https://github.com/ServiceCutter/S
 
 This fork aims to provide the Service Cutter engine as a library to be used within other tools such as [Context Mapper](https://contextmapper.org). Currently this is in an **experimental state**. As soon as we have a first version we aim to publish it to Maven central.
 
-# Build and Run
+# Build
 
 Prerequisite: JDK 1.8
 
