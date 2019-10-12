@@ -15,5 +15,29 @@ Prerequisite: JDK 1.8
 ./gradlew clean build
 ```
 
+# Usage Example
+Usage of Service Cutter within your application, in case you provide the input files (entity relations and user representations) as JSON files:
+```java
+public static void main(String[] args) throws IOException {
+    // create ERD and user representations from JSON files
+    File erdFile = new File("./src/test/resources/booking_1_model.json");
+    File urFile = new File("./src/test/resources/booking_2_user_representations.json");
+    EntityRelationDiagram erd = new EntityRelationDiagramImporterJSON().createERDFromJSONFile(erdFile);
+    UserRepresentationContainer userRepresentations = new UserRepresentationContainerImporterJSON()
+        .createUserRepresentationContainerFromJSONFile(urFile);
+
+    // build solver context (user representations are optional)
+    ServiceCutterContext context = new ServiceCutterContextBuilder(erd)
+        .withUserRepresentations(userRepresentations)
+        .build();
+
+    // generate service decompositions
+    SolverResult result = new ServiceCutter(context).generateDecomposition();
+    
+    // analyze and do something with the result ...
+}
+```
+If you don't want to work with JSON files you can construct the models manually with the classes provided in the package _ch.hsr.servicecutter.api.model_.
+
 ## Licence
 Service Cutter and this library version are released under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
