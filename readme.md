@@ -1,5 +1,5 @@
 # Service Cutter Library (experimental state) 
-[![Build Status](https://travis-ci.com/ContextMapper/service-cutter-library.svg?branch=master)](https://travis-ci.com/ContextMapper/service-cutter-library) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
+[![Build Status](https://travis-ci.com/ContextMapper/service-cutter-library.svg?branch=master)](https://travis-ci.com/ContextMapper/service-cutter-library) [![codecov](https://codecov.io/gh/ContextMapper/service-cutter-library/branch/master/graph/badge.svg)](https://codecov.io/gh/ContextMapper/service-cutter-library) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
 
 The [Service Cutter tool](https://github.com/ServiceCutter/ServiceCutter) suggests a structured way to service decomposition. It is based on the [Bachelor Thesis](https://eprints.hsr.ch/476/) by [Lukas Kölbener](https://github.com/koelbener) and [Michael Gysel](https://github.com/gysel).
 
