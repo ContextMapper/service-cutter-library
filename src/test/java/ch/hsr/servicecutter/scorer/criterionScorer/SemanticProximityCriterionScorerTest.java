@@ -2,7 +2,7 @@ package ch.hsr.servicecutter.scorer.criterionScorer;
 
 import ch.hsr.servicecutter.model.solver.EntityPair;
 import ch.hsr.servicecutter.model.usersystem.Nanoentity;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +41,6 @@ public class SemanticProximityCriterionScorerTest {
 
 	private Nanoentity createNanoentity(final String string) {
 		Nanoentity nanoentity = new Nanoentity(string);
-		nanoentity.setId(idGen++);
 		return nanoentity;
 	}
 

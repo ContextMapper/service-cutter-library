@@ -12,58 +12,46 @@ import com.google.common.base.MoreObjects;
 public class SolverConfiguration {
 
 	private Map<String, Double> algorithmParams = new HashMap<>();
-	private Map<String, Double> priorities = new HashMap<>();
-	private String algorithm = SolverMode.MODE_LEUNG.toString(); // default for now
+	private Map<String, SolverPriority> priorities = new HashMap<>();
+	private SolverAlgorithm algorithm = SolverAlgorithm.LEUNG; // default for now
 
 	private Logger log = LoggerFactory.getLogger(SolverConfiguration.class);
 
 	public SolverConfiguration() {
 	}
 
-	public void setAlgorithmParams(final Map<String, Double> mclParams) {
-		if (mclParams != null) {
-			this.algorithmParams = mclParams;
-		} else {
-			throw new InvalidParameterException("mclParams should not be null!");
-		}
+	public void setAlgorithmParam(final String param, final Double value) {
+		algorithmParams.put(param, value);
 	}
 
-	public Map<String, Double> getPriorities() {
+	public Map<String, SolverPriority> getPriorities() {
 		return priorities;
 	}
 
-	public void setPriorities(final Map<String, Double> priorities) {
-		if (priorities == null) {
+	public void setPriority(final String criterionType, final SolverPriority priority) {
+		if (priority == null) {
 			throw new InvalidParameterException();
 		}
-		this.priorities = priorities;
+		priorities.put(criterionType, priority);
 	}
 
 	public Map<String, Double> getAlgorithmParams() {
 		return algorithmParams;
 	}
 
-	public Double getPriorityForCouplingCriterion(final String criterionType) {
+	public SolverPriority getPriorityForCouplingCriterion(final String criterionType) {
 		if (!priorities.containsKey(criterionType)) {
 			log.error("no priority defined for couplingCriterion: " + criterionType + ". Use 1");
-			return 1d;
+			return SolverPriority.S;
 		}
 		return priorities.get(criterionType);
 	}
 
-	public Double getValueForAlgorithmParam(final String key) {
-		if (!algorithmParams.containsKey(key)) {
-			log.error("no value defined for algorithm param: " + key + ". Use 1");
-			return 1d;
-		}
-		return algorithmParams.get(key);
-	}
-
-	public void setAlgorithm(final String algorithm) {
+	public void setAlgorithm(final SolverAlgorithm algorithm) {
 		this.algorithm = algorithm;
 	}
 
-	public String getAlgorithm() {
+	public SolverAlgorithm getAlgorithm() {
 		return algorithm;
 	}
 

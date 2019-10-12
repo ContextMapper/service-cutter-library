@@ -1,57 +1,55 @@
 package ch.hsr.servicecutter.model.criteria;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
 public class CouplingCriterionCharacteristic {
 
-	private Long id;
-	private String name;
-	private Integer weight;
-	private boolean isDefault = false;
-	private CouplingCriterion couplingCriterion;
+    private String name;
+    private Integer weight;
+    private boolean isDefault = false;
+    private CouplingCriterion couplingCriterion;
 
-	public Long getId() {
-		return id;
-	}
+    public CouplingCriterionCharacteristic(CouplingCriterion criterion, String name, Integer weight, boolean isDefault) {
+        this.name = name;
+        this.couplingCriterion = criterion;
+        this.weight = weight;
+        this.isDefault = isDefault;
+    }
 
-	public void setId(final Long id) {
-		this.id = id;
-	}
+    public boolean isDefault() {
+        return isDefault;
+    }
 
-	public boolean isDefault() {
-		return isDefault;
-	}
+    public CouplingCriterion getCouplingCriterion() {
+        return couplingCriterion;
+    }
 
-	public void setDefault(final boolean isDefault) {
-		this.isDefault = isDefault;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public CouplingCriterion getCouplingCriterion() {
-		return couplingCriterion;
-	}
+    public Integer getWeight() {
+        return weight;
+    }
 
-	public void setCouplingCriterion(final CouplingCriterion couplingCriterion) {
-		this.couplingCriterion = couplingCriterion;
-	}
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this.getClass()).add("name", name).add("weight", weight).toString();
+    }
 
-	public String getName() {
-		return name;
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name, couplingCriterion);
+    }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
-
-	public Integer getWeight() {
-		return weight;
-	}
-
-	public void setWeight(final Integer weight) {
-		this.weight = weight;
-	}
-
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(this.getClass()).add("id", id).add("name", name).add("weight", weight).toString();
-	}
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof CouplingCriterionCharacteristic) {
+            CouplingCriterionCharacteristic other = (CouplingCriterionCharacteristic) obj;
+            return this == other || (Objects.equal(name, other.name) && Objects.equal(couplingCriterion, other.couplingCriterion));
+        } else {
+            return false;
+        }
+    }
 }

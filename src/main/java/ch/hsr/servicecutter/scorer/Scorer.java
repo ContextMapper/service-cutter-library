@@ -120,7 +120,7 @@ public class Scorer {
 
 	private void addScoresToResult(final Map<EntityPair, Map<String, Score>> result, final EntityPair nanoentities, final String criterionName, final double score,
 			final double priority) {
-		if (nanoentities.nanoentityA.getId().equals(nanoentities.nanoentityB.getId())) {
+		if (nanoentities.nanoentityA.equals(nanoentities.nanoentityB)) {
 			log.warn("score on same nanoentity ignored. Nanoentity: {}, Score: {}, Criterion: {}", nanoentities.nanoentityA, score, criterionName);
 			return;
 		}

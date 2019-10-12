@@ -1,19 +1,17 @@
 package ch.hsr.servicecutter.scorer.criterionScorer;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import ch.hsr.servicecutter.model.solver.EntityPair;
+import ch.hsr.servicecutter.model.usersystem.CouplingInstance;
+import ch.hsr.servicecutter.model.usersystem.Nanoentity;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 
-import org.junit.Test;
-
-import ch.hsr.servicecutter.model.solver.EntityPair;
-import ch.hsr.servicecutter.model.usersystem.CouplingInstance;
-import ch.hsr.servicecutter.model.usersystem.Nanoentity;
-import ch.hsr.servicecutter.scorer.criterionScorer.RelatedGroupCriteriaScorer;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 public class RelatedGroupCriteriaScorerTest {
 
@@ -76,7 +74,6 @@ public class RelatedGroupCriteriaScorerTest {
 
 	private Nanoentity createNanoEntity(final String name) {
 		Nanoentity nanoEntity = new Nanoentity(name);
-		nanoEntity.setId(idGen++);
 		return nanoEntity;
 	}
 }

@@ -16,8 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.hsr.servicecutter.model.solver.EntityPair;
-import ch.hsr.servicecutter.model.solver.Service;
-import ch.hsr.servicecutter.model.solver.SolverResult;
+import ch.hsr.servicecutter.api.model.Service;
+import ch.hsr.servicecutter.api.model.SolverResult;
 import ch.hsr.servicecutter.model.usersystem.Nanoentity;
 import ch.hsr.servicecutter.model.usersystem.UserSystem;
 import ch.hsr.servicecutter.scorer.Score;

@@ -27,8 +27,4 @@ public class Score {
 		return score * priority;
 	}
 
-	public Score withPriority(final double newPriority) {
-		return new Score(this.score, newPriority);
-	}
-
 }

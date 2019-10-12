@@ -1,6 +1,6 @@
 package ch.hsr.servicecutter.solver;
 
-import ch.hsr.servicecutter.model.solver.SolverResult;
+import ch.hsr.servicecutter.api.model.SolverResult;
 
 public interface Solver {
 

@@ -8,7 +8,6 @@ import java.util.List;
 
 public class UserSystem {
 
-	private Long id;
 	private String name;
 
 	private List<Nanoentity> nanoentities = new ArrayList<>();
@@ -33,10 +32,6 @@ public class UserSystem {
 		return couplingInstances;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -47,14 +42,14 @@ public class UserSystem {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(id);
+		return Objects.hashCode(name);
 	}
 
 	@Override
 	public boolean equals(final Object obj) {
 		if (obj instanceof UserSystem) {
 			UserSystem other = (UserSystem) obj;
-			return this == other || Objects.equal(id, other.id);
+			return this == other || Objects.equal(name, other.name);
 		} else {
 			return false;
 		}
