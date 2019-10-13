@@ -1,3 +1,15 @@
+import java.text.SimpleDateFormat
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.standardout:bnd-platform:1.7.0'
+        classpath 'com.github.missedone:gradle-bintray-p2-plugin:1.2.0'
+    }
+}
+
 plugins {
     id 'java'
     id 'jacoco'
@@ -5,6 +17,8 @@ plugins {
     id 'signing'
     id 'nebula.release' version '13.0.0'
 }
+apply plugin: 'org.standardout.bnd-platform'
+apply plugin: 'bintray-p2'
 
 group 'org.contextmapper'
 
@@ -151,6 +165,53 @@ def customizePom(pom) {
         }
     }
 }
+
+defaultTasks 'updateSiteZip'
+updateSiteZip.dependsOn clean
+build.finalizedBy(updateSiteZip)
+
+platform {
+
+    bundle "org.contextmapper:service-cutter-library:${version}", {
+        bnd {
+            symbolicName = 'org.contextmapper.servicecutter.library'
+            bundleName = 'service-cutter-library'
+            instruction 'Bundle-Vendor', 'Context Mapper'
+            version = version
+        }
+
+        exclude module: 'jackson-databind'
+        exclude module: 'guava'
+        exclude module: 'commons-math'
+        exclude module: 'commons-math3'
+        exclude module: 'slf4j-log4j12'
+        exclude module: 'junit'
+    }
+
+    featureId 'org.contextmapper.servicecutter.feature'
+    featureName 'Service Cutter Library Feature'
+    featureVersion project.version.toString().endsWith('SNAPSHOT') ? project.version.toString().replace("SNAPSHOT", "") + new SimpleDateFormat("YYYYMMddHHmmss").format(new Date()) : project.version.toString()
+    featureProvider 'Context Mapper'
+
+    categoryName 'Service Cutter Library'
+    categoryId 'org.contextmapper.servicecutter.library'
+
+    useBndHashQualifiers false
+    useFeatureHashQualifiers false
+    defaultQualifier ''
+}
+
+publishP2Repo {
+    repoOwner = 'contextmapper'
+    repoName = project.version.toString().endsWith('SNAPSHOT') ? 'service-cutter-library-snapshots' : 'service-cutter-library-releases'
+    mainFeatureId = 'org.contextmapper.servicecutter.feature'
+    compositePackage = ''
+    subCompositeStrategy = 'MICRO'
+    apiKey = System.getenv('BINTRAY_API_KEY')
+    user = System.getenv('BINTRAY_USERNAME')
+}
+
+publishToMavenLocal.finalizedBy(publishP2Repo)
 
 test {
     useJUnitPlatform()
