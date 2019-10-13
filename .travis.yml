@@ -5,6 +5,9 @@ jdk:
 
 script: ./gradlew clean build
 
+before_install:
+- openssl aes-256-cbc -K $encrypted_7597489104ac_key -iv $encrypted_7597489104ac_iv -in secret-key.gpg.enc -out secret-key.gpg -d
+
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 
