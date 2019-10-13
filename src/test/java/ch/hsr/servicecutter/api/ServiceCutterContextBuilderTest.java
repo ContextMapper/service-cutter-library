@@ -20,8 +20,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceCutterContextBuilderTest {
 
@@ -37,7 +36,7 @@ public class ServiceCutterContextBuilderTest {
         // then
         assertNotNull(context.getCriteriaCatalog());
         assertNotNull(context.getSolverConfiguration());
-        assertNotNull(context.getUserSystem());
+        assertEquals("Booking", context.getSystemName());
         assertTrue(context.getNanoEntities().size() > 0);
         assertTrue(context.getCouplingInstances().size() > 0);
     }
@@ -56,7 +55,7 @@ public class ServiceCutterContextBuilderTest {
         // then
         assertNotNull(context.getCriteriaCatalog());
         assertNotNull(context.getSolverConfiguration());
-        assertNotNull(context.getUserSystem());
+        assertEquals("Booking", context.getSystemName());
         assertTrue(context.getNanoEntities().size() > 0);
         assertTrue(context.getCouplingInstances().size() > 0);
     }

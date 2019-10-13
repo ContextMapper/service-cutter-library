@@ -1,13 +1,11 @@
 package ch.hsr.servicecutter.solver;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import ch.hsr.servicecutter.api.ServiceCutterContext;
+import ch.hsr.servicecutter.api.model.Service;
+import ch.hsr.servicecutter.api.model.SolverResult;
+import ch.hsr.servicecutter.model.solver.EntityPair;
+import ch.hsr.servicecutter.model.usersystem.Nanoentity;
+import ch.hsr.servicecutter.scorer.Score;
 import org.graphstream.algorithm.community.Leung;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
@@ -15,12 +13,8 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.hsr.servicecutter.model.solver.EntityPair;
-import ch.hsr.servicecutter.api.model.Service;
-import ch.hsr.servicecutter.api.model.SolverResult;
-import ch.hsr.servicecutter.model.usersystem.Nanoentity;
-import ch.hsr.servicecutter.model.usersystem.UserSystem;
-import ch.hsr.servicecutter.scorer.Score;
+import java.io.IOException;
+import java.util.*;
 
 public class GraphStreamSolver extends AbstractSolver<Node, Edge> {
 
@@ -31,8 +25,8 @@ public class GraphStreamSolver extends AbstractSolver<Node, Edge> {
 	protected double m = 0.1;
 	protected double delta = 0.05;
 
-	public GraphStreamSolver(final UserSystem userSystem, final Map<EntityPair, Map<String, Score>> scores, final SolverConfiguration config) {
-		super(userSystem, scores);
+	public GraphStreamSolver(final ServiceCutterContext context, final Map<EntityPair, Map<String, Score>> scores, final SolverConfiguration config) {
+		super(context, scores);
 		graph = new SingleGraph("Service Cutter Graph");
 		Double m = config.getAlgorithmParams().get("leungM");
 		if (m != null) {

@@ -7,7 +7,6 @@ public class Nanoentity {
     private Long id;
     private String name;
     private String context;
-    private UserSystem userSystem;
 
     public Nanoentity() {
     }
@@ -42,14 +41,6 @@ public class Nanoentity {
 
     public String getContextName() {
         return ((context != null && !"".equals(context.trim())) ? context + "." : "") + name;
-    }
-
-    public UserSystem getUserSystem() {
-        return userSystem;
-    }
-
-    public void setUserSystem(final UserSystem userSystem) {
-        this.userSystem = userSystem;
     }
 
     @Override

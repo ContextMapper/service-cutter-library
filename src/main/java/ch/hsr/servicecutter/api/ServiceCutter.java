@@ -18,7 +18,6 @@ package ch.hsr.servicecutter.api;
 import ch.hsr.servicecutter.analyzer.ServiceCutAnalyzer;
 import ch.hsr.servicecutter.api.model.SolverResult;
 import ch.hsr.servicecutter.model.solver.EntityPair;
-import ch.hsr.servicecutter.model.usersystem.UserSystem;
 import ch.hsr.servicecutter.scorer.Score;
 import ch.hsr.servicecutter.scorer.Scorer;
 import ch.hsr.servicecutter.solver.GraphStreamSolver;
@@ -52,12 +51,11 @@ public class ServiceCutter {
     public ServiceCutter(ServiceCutterContext context) {
         this.context = context;
         this.scorer = new Scorer(context.getCouplingInstances(), context.getNanoEntities());
-        this.analyzer = new ServiceCutAnalyzer(context.getNanoEntities());
+        this.analyzer = new ServiceCutAnalyzer(context);
     }
 
     public SolverResult generateDecomposition() {
-        UserSystem userSystem = context.getUserSystem();
-        if (userSystem == null || context.getSolverConfiguration() == null || context.getSolverConfiguration().getPriorities().isEmpty()) {
+        if (context.getSolverConfiguration() == null || context.getSolverConfiguration().getPriorities().isEmpty()) {
             return new SolverResult(Collections.emptySet());
         }
         Solver solver = null;
@@ -67,16 +65,16 @@ public class ServiceCutter {
             return context.getSolverConfiguration().getPriorityForCouplingCriterion(key).toValue();
         });
         if (LEUNG.equals(algorithm)) {
-            solver = new GraphStreamSolver(userSystem, scores, context.getSolverConfiguration());
+            solver = new GraphStreamSolver(context, scores, context.getSolverConfiguration());
         } else {
             throw new RuntimeException("Algorithm " + algorithm.toString() + " not found!");
         }
         log.info("created graph");
         SolverResult result = solver.solve();
         log.info("found clusters");
-        log.info("userSystem {} solved, found {} bounded contexts: {}", userSystem.getName(), result.getServices().size(), result.toString());
+        log.info("userSystem {} solved, found {} bounded contexts: {}", context.getSystemName(), result.getServices().size(), result.toString());
         if (result.getServices().size() > 0) {
-            analyzer.analyseResult(result, scores, userSystem);
+            analyzer.analyseResult(result, scores);
         } else {
             log.warn("no services found!");
         }

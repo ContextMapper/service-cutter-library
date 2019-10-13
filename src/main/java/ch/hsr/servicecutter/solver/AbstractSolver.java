@@ -1,17 +1,16 @@
 package ch.hsr.servicecutter.solver;
 
+import ch.hsr.servicecutter.api.ServiceCutterContext;
+import ch.hsr.servicecutter.model.solver.EntityPair;
+import ch.hsr.servicecutter.model.usersystem.Nanoentity;
+import ch.hsr.servicecutter.scorer.Score;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import ch.hsr.servicecutter.model.solver.EntityPair;
-import ch.hsr.servicecutter.model.usersystem.Nanoentity;
-import ch.hsr.servicecutter.model.usersystem.UserSystem;
-import ch.hsr.servicecutter.scorer.Score;
 
 /**
  * Implement this class to support an algorithm in the Service Cutter.
@@ -25,12 +24,12 @@ import ch.hsr.servicecutter.scorer.Score;
  */
 public abstract class AbstractSolver<N, E> implements Solver {
 
-	private UserSystem userSystem;
+	private ServiceCutterContext context;
 	private final Logger log = LoggerFactory.getLogger(AbstractSolver.class);
 	private Map<EntityPair, Map<String, Score>> scores;
 
-	public AbstractSolver(final UserSystem userSystem, final Map<EntityPair, Map<String, Score>> scores) {
-		this.userSystem = userSystem;
+	public AbstractSolver(final ServiceCutterContext context, final Map<EntityPair, Map<String, Score>> scores) {
+		this.context = context;
 		this.scores = scores;
 		log.info("Created solver of type {}", getClass());
 	}
@@ -118,7 +117,7 @@ public abstract class AbstractSolver<N, E> implements Solver {
 
 	protected void buildNodes() {
 		// create nodes
-		for (Nanoentity nanoentity : userSystem.getNanoentities()) {
+		for (Nanoentity nanoentity : context.getNanoEntities()) {
 			createNode(createNodeIdentifier(nanoentity));
 		}
 	}

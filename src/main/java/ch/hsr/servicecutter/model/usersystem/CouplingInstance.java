@@ -13,7 +13,6 @@ import java.util.List;
 public class CouplingInstance implements Comparable<CouplingInstance> {
 
 	private String name;
-	private UserSystem userSystem;
 	private List<Nanoentity> nanoentities = new ArrayList<>();
 	private CouplingCriterion couplingCriterion;
 	private CouplingCriterionCharacteristic characteristic;
@@ -55,14 +54,6 @@ public class CouplingInstance implements Comparable<CouplingInstance> {
 
 	public void setName(final String name) {
 		this.name = name;
-	}
-
-	public void setSystem(final UserSystem userSystem) {
-		this.userSystem = userSystem;
-	}
-
-	public UserSystem getUserSystem() {
-		return userSystem;
 	}
 
 	public CouplingCriterion getCouplingCriterion() {

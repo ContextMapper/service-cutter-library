@@ -22,7 +22,6 @@ import ch.hsr.servicecutter.model.criteria.CouplingType;
 import ch.hsr.servicecutter.model.usersystem.CouplingInstance;
 import ch.hsr.servicecutter.model.usersystem.InstanceType;
 import ch.hsr.servicecutter.model.usersystem.Nanoentity;
-import ch.hsr.servicecutter.model.usersystem.UserSystem;
 import ch.hsr.servicecutter.solver.SolverConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +81,7 @@ public class ServiceCutterContextBuilder {
      * Builds the {@link ServiceCutterContext}
      */
     public ServiceCutterContext build() {
-        context = new ServiceCutterContext();
+        context = new ServiceCutterContext(entityRelationDiagram.getName());
         initSolverConfiguration();
         initERDRelatedData();
         initUserRepresentationRelatedData();
@@ -101,9 +100,7 @@ public class ServiceCutterContextBuilder {
      * Basically the ERD import in original ServiceCutter
      */
     private void initERDRelatedData() {
-        UserSystem system = new UserSystem();
         String name = entityRelationDiagram.getName();
-        system.setName(name);
         List<TemporaryNanoentity> nanoentities = entityRelationDiagram.getEntities().stream().flatMap(e -> e.getNanoentities().stream().map(n -> new TemporaryNanoentity(e.getName(), n))).collect(toList());
 
         // entities
@@ -112,12 +109,10 @@ public class ServiceCutterContextBuilder {
                 .collect(Collectors.groupingBy(TemporaryNanoentity::getNewEntity));
         for (Map.Entry<String, List<TemporaryNanoentity>> entityAndNanoentities : nanoentitiesByEntity.entrySet()) {
             CouplingInstance entityCoupling = new CouplingInstance(criterion, InstanceType.SAME_ENTITY);
-            system.addCouplingInstance(entityCoupling);
             context.addCouplingInstance(entityCoupling);
             entityCoupling.setName(entityAndNanoentities.getKey());
-            entityCoupling.setSystem(system);
             for (TemporaryNanoentity newNanoentity : entityAndNanoentities.getValue()) {
-                entityCoupling.addNanoentity(createNanoentity(system, newNanoentity.getOriginalEntity(), newNanoentity.getOriginalName()));
+                entityCoupling.addNanoentity(createNanoentity(newNanoentity.getOriginalEntity(), newNanoentity.getOriginalName()));
             }
         }
 
@@ -127,18 +122,15 @@ public class ServiceCutterContextBuilder {
             if (EntityRelation.RelationType.AGGREGATION.equals(relation.getType())) {
                 CouplingInstance instance = new CouplingInstance(semanticProximity, InstanceType.AGGREGATION);
                 List<Nanoentity> originNanoentities = relation.getOrigin().getNanoentities().stream()
-                        .map(attr -> context.findNanoEntityByContextAndNameAndUserSystem(relation.getOrigin().getName(), attr, system)).collect(Collectors.toList());
+                        .map(attr -> context.findNanoEntityByContextAndName(relation.getOrigin().getName(), attr)).collect(Collectors.toList());
                 List<Nanoentity> destinationNanoentities = relation.getDestination().getNanoentities().stream()
-                        .map(attr -> context.findNanoEntityByContextAndNameAndUserSystem(relation.getDestination().getName(), attr, system)).collect(Collectors.toList());
+                        .map(attr -> context.findNanoEntityByContextAndName(relation.getDestination().getName(), attr)).collect(Collectors.toList());
                 instance.setNanoentities(originNanoentities);
                 instance.setSecondNanoentities(destinationNanoentities);
-                instance.setSystem(system);
                 instance.setName(relation.getOrigin().getName() + "." + relation.getDestination().getName());
                 context.addCouplingInstance(instance);
-                system.addCouplingInstance(instance);
             }
         }
-        context.setUserSystem(system);
     }
 
     /**
@@ -149,42 +141,39 @@ public class ServiceCutterContextBuilder {
         if (userRepresentationContainer == null)
             return;
 
-        UserSystem system = context.getUserSystem();
-        createUseCaseCouplingInstances(system, userRepresentationContainer.getUseCases());
+        createUseCaseCouplingInstances(userRepresentationContainer.getUseCases());
         Compatibilities compatibilities = userRepresentationContainer.getCompatibilities();
         if (compatibilities != null) {
-            createCharacteristicCouplingInstances(system, compatibilities.getStructuralVolatility(), CouplingCriterion.STRUCTURAL_VOLATILITY);
-            createCharacteristicCouplingInstances(system, compatibilities.getConsistencyCriticality(), CouplingCriterion.CONSISTENCY);
-            createCharacteristicCouplingInstances(system, compatibilities.getSecurityCriticality(), CouplingCriterion.SECURITY_CRITICALITY);
-            createCharacteristicCouplingInstances(system, compatibilities.getStorageSimilarity(), CouplingCriterion.STORAGE_SIMILARITY);
-            createCharacteristicCouplingInstances(system, compatibilities.getContentVolatility(), CouplingCriterion.CONTENT_VOLATILITY);
-            createCharacteristicCouplingInstances(system, compatibilities.getAvailabilityCriticality(), CouplingCriterion.AVAILABILITY);
+            createCharacteristicCouplingInstances(compatibilities.getStructuralVolatility(), CouplingCriterion.STRUCTURAL_VOLATILITY);
+            createCharacteristicCouplingInstances(compatibilities.getConsistencyCriticality(), CouplingCriterion.CONSISTENCY);
+            createCharacteristicCouplingInstances(compatibilities.getSecurityCriticality(), CouplingCriterion.SECURITY_CRITICALITY);
+            createCharacteristicCouplingInstances(compatibilities.getStorageSimilarity(), CouplingCriterion.STORAGE_SIMILARITY);
+            createCharacteristicCouplingInstances(compatibilities.getContentVolatility(), CouplingCriterion.CONTENT_VOLATILITY);
+            createCharacteristicCouplingInstances(compatibilities.getAvailabilityCriticality(), CouplingCriterion.AVAILABILITY);
         }
-        createRelatedGroupCouplingInstances(system, userRepresentationContainer.getAggregates(), CouplingCriterion.CONSISTENCY_CONSTRAINT);
-        createRelatedGroupCouplingInstances(system, userRepresentationContainer.getEntities(), CouplingCriterion.IDENTITY_LIFECYCLE);
-        createRelatedGroupCouplingInstances(system, userRepresentationContainer.getPredefinedServices(), CouplingCriterion.PREDEFINED_SERVICE);
-        createRelatedGroupCouplingInstances(system, userRepresentationContainer.getSecurityAccessGroups(), CouplingCriterion.SECURITY_CONTEXUALITY);
-        createRelatedGroupCouplingInstances(system, userRepresentationContainer.getSeparatedSecurityZones(), CouplingCriterion.SECURITY_CONSTRAINT);
-        createRelatedGroupCouplingInstances(system, userRepresentationContainer.getSharedOwnerGroups(), CouplingCriterion.SHARED_OWNER);
+        createRelatedGroupCouplingInstances(userRepresentationContainer.getAggregates(), CouplingCriterion.CONSISTENCY_CONSTRAINT);
+        createRelatedGroupCouplingInstances(userRepresentationContainer.getEntities(), CouplingCriterion.IDENTITY_LIFECYCLE);
+        createRelatedGroupCouplingInstances(userRepresentationContainer.getPredefinedServices(), CouplingCriterion.PREDEFINED_SERVICE);
+        createRelatedGroupCouplingInstances(userRepresentationContainer.getSecurityAccessGroups(), CouplingCriterion.SECURITY_CONTEXUALITY);
+        createRelatedGroupCouplingInstances(userRepresentationContainer.getSeparatedSecurityZones(), CouplingCriterion.SECURITY_CONSTRAINT);
+        createRelatedGroupCouplingInstances(userRepresentationContainer.getSharedOwnerGroups(), CouplingCriterion.SHARED_OWNER);
     }
 
-    private void createUseCaseCouplingInstances(final UserSystem system, final List<UseCase> useCases) {
+    private void createUseCaseCouplingInstances(final List<UseCase> useCases) {
         CouplingCriterion semanticProximity = context.getCriteriaCatalog().getCriterionByName(CouplingCriterion.SEMANTIC_PROXIMITY);
         for (UseCase usecase : useCases) {
             InstanceType type;
             type = usecase.isLatencyCritical() ? InstanceType.LATENCY_USE_CASE : InstanceType.USE_CASE;
             CouplingInstance instance = new CouplingInstance(semanticProximity, type);
             instance.setName(usecase.getName());
-            instance.setSystem(system);
-            instance.setNanoentities(findNanoentities(usecase.getNanoentitiesRead(), system));
-            instance.setSecondNanoentities(findNanoentities(usecase.getNanoentitiesWritten(), system));
-            system.addCouplingInstance(instance);
+            instance.setNanoentities(findNanoentities(usecase.getNanoentitiesRead()));
+            instance.setSecondNanoentities(findNanoentities(usecase.getNanoentitiesWritten()));
             context.addCouplingInstance(instance);
             log.info("Import use cases {} with fields written {} and fields read {}", usecase.getName(), usecase.getNanoentitiesWritten(), usecase.getNanoentitiesRead());
         }
     }
 
-    private void createCharacteristicCouplingInstances(final UserSystem system, final List<Characteristic> characteristics, final String criterionName) {
+    private void createCharacteristicCouplingInstances(final List<Characteristic> characteristics, final String criterionName) {
         if (characteristics == null || characteristics.isEmpty()) {
             return;
         }
@@ -194,24 +183,22 @@ public class ServiceCutterContextBuilder {
                 log.error("characteristic {} not known! ignoring...", inputCharacteristic);
                 continue;
             }
-            Set<CouplingInstance> instance = context.findCouplingInstancesByUserSystemAndCharacteristic(system, characteristic);
+            Set<CouplingInstance> instance = context.findCouplingInstancesByCharacteristic(characteristic);
 
             if (instance == null || instance.isEmpty()) {
                 CouplingInstance newInstance = new CouplingInstance(characteristic, InstanceType.CHARACTERISTIC);
                 newInstance.setName(criterionName);
-                newInstance.setSystem(system);
-                newInstance.setNanoentities(findNanoentities(inputCharacteristic.getNanoentities(), system));
-                system.addCouplingInstance(newInstance);
+                newInstance.setNanoentities(findNanoentities(inputCharacteristic.getNanoentities()));
                 context.addCouplingInstance(newInstance);
                 log.info("Import distance characteristic {}-{} with nanoentities {}", criterionName, inputCharacteristic.getCharacteristic(), newInstance.getAllNanoentities());
             } else {
                 log.error("enhancing characteristics not yet implemented. criterion: {}, characteristic: {}", criterionName, inputCharacteristic.getCharacteristic());
             }
         }
-        completeSystemWithDefaultsForDistance(system);
+        completeSystemWithDefaultsForDistance();
     }
 
-    private void createRelatedGroupCouplingInstances(final UserSystem system, final List<RelatedGroup> listOfGroups, final String couplingCriterionName) {
+    private void createRelatedGroupCouplingInstances(final List<RelatedGroup> listOfGroups, final String couplingCriterionName) {
         if (listOfGroups == null || listOfGroups.isEmpty()) {
             return;
         }
@@ -220,9 +207,7 @@ public class ServiceCutterContextBuilder {
             CouplingInstance instance = new CouplingInstance(couplingCriterion, InstanceType.RELATED_GROUP);
             String name = relatedGroup.getName();
             instance.setName((name != null && !"".equals(name)) ? name : couplingCriterionName);
-            instance.setSystem(system);
-            instance.setNanoentities(findNanoentities(relatedGroup.getNanoentities(), system));
-            system.addCouplingInstance(instance);
+            instance.setNanoentities(findNanoentities(relatedGroup.getNanoentities()));
             context.addCouplingInstance(instance);
             log.info("Import related group {} on nanoentities {} ", name, instance.getNanoentities());
         }
@@ -234,15 +219,15 @@ public class ServiceCutterContextBuilder {
         return result;
     }
 
-    private List<Nanoentity> findNanoentities(final List<String> names, final UserSystem system) {
+    private List<Nanoentity> findNanoentities(final List<String> names) {
         List<Nanoentity> nanoentities = new ArrayList<>();
         for (String nanoentityName : names) {
             Nanoentity nanoentity;
             if (nanoentityName.contains(".")) {
                 String[] splittedName = nanoentityName.split("\\.");
-                nanoentity = context.findNanoEntityByContextAndNameAndUserSystem(splittedName[0], splittedName[1], system);
+                nanoentity = context.findNanoEntityByContextAndName(splittedName[0], splittedName[1]);
             } else {
-                nanoentity = context.findNanoEntityByNameAndUserSystem(nanoentityName, system);
+                nanoentity = context.findNanoEntityByName(nanoentityName);
             }
 
             if (nanoentity != null) {
@@ -254,12 +239,11 @@ public class ServiceCutterContextBuilder {
         return nanoentities;
     }
 
-    private Nanoentity createNanoentity(final UserSystem system, final String context, final String name) {
+    private Nanoentity createNanoentity(final String context, final String name) {
         Nanoentity nanoentity = new Nanoentity();
         nanoentity.setId(nanoEntityId++);
         nanoentity.setName(name);
         nanoentity.setContext(context);
-        system.addNanoentity(nanoentity);
         this.context.addNanoEntity(nanoentity);
         return nanoentity;
     }
@@ -304,10 +288,9 @@ public class ServiceCutterContextBuilder {
         return relationsToEdgeEntities;
     }
 
-    public void completeSystemWithDefaultsForDistance(final UserSystem system) {
-        Set<Nanoentity> allNanoentitiesInModel = context.findNanoEntityByUserSystem(system);
-        Map<String, Set<CouplingInstance>> instancesByCriterion = context.findCouplingInstancesByUserSystemGroupedByCriterionFilteredByCriterionType(system,
-                CouplingType.COMPATIBILITY);
+    public void completeSystemWithDefaultsForDistance() {
+        Set<Nanoentity> allNanoentitiesInModel = context.getNanoEntities();
+        Map<String, Set<CouplingInstance>> instancesByCriterion = context.findCouplingInstancesGroupedByCriterionFilteredByCriterionType(CouplingType.COMPATIBILITY);
 
         // For every criterion
         for (Map.Entry<String, Set<CouplingInstance>> criterion : instancesByCriterion.entrySet()) {
@@ -318,13 +301,12 @@ public class ServiceCutterContextBuilder {
             if (!missingNanoentities.isEmpty()) {
                 CouplingCriterionCharacteristic defaultCharacteristic = context.getCriteriaCatalog()
                         .getCouplingCriterionCharacteristicByCouplingCriterionAndIsDefault(context.getCriteriaCatalog().getCriterionByName(criterion.getKey()));
-                Set<CouplingInstance> instances = context.findCouplingInstancesByUserSystemAndCharacteristic(system, defaultCharacteristic);
+                Set<CouplingInstance> instances = context.findCouplingInstancesByCharacteristic(defaultCharacteristic);
                 CouplingInstance instance;
                 if (instances.size() == 1) {
                     instance = instances.iterator().next();
                 } else if (instances.size() == 0) {
                     instance = new CouplingInstance(defaultCharacteristic, InstanceType.CHARACTERISTIC);
-                    system.addCouplingInstance(instance);
                     instance.setName(defaultCharacteristic.getName());
                     context.addCouplingInstance(instance);
                 } else {

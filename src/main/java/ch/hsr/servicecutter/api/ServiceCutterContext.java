@@ -20,7 +20,6 @@ import ch.hsr.servicecutter.model.criteria.CouplingCriterionCharacteristic;
 import ch.hsr.servicecutter.model.criteria.CouplingType;
 import ch.hsr.servicecutter.model.usersystem.CouplingInstance;
 import ch.hsr.servicecutter.model.usersystem.Nanoentity;
-import ch.hsr.servicecutter.model.usersystem.UserSystem;
 import ch.hsr.servicecutter.solver.SolverConfiguration;
 
 import java.util.*;
@@ -33,24 +32,21 @@ import java.util.stream.Collectors;
  */
 public class ServiceCutterContext {
 
-    private UserSystem userSystem;
+    private String systemName;
     private SolverConfiguration solverConfiguration;
     private CouplingCriteriaCatalog criteriaCatalog;
     private List<CouplingInstance> couplingInstances;
     private Set<Nanoentity> nanoEntities;
 
-    public ServiceCutterContext() {
+    public ServiceCutterContext(String systemName) {
+        this.systemName = systemName;
         this.criteriaCatalog = new CouplingCriteriaCatalog();
         this.couplingInstances = new ArrayList<>();
         this.nanoEntities = new HashSet<>();
     }
 
-    public void setUserSystem(UserSystem userSystem) {
-        this.userSystem = userSystem;
-    }
-
-    public UserSystem getUserSystem() {
-        return userSystem;
+    public String getSystemName() {
+        return systemName;
     }
 
     public void setSolverConfiguration(SolverConfiguration solverConfiguration) {
@@ -78,31 +74,23 @@ public class ServiceCutterContext {
     }
 
     public Set<Nanoentity> getNanoEntities() {
-        return nanoEntities;
+        return Collections.unmodifiableSet(nanoEntities);
     }
 
-    public Nanoentity findNanoEntityByContextAndNameAndUserSystem(String context, String name, UserSystem userSystem) {
-        return this.nanoEntities.stream().filter(ne -> ne.getContext().equals(context) && ne.getName().equals(name) && ne.getUserSystem().equals(userSystem)).findFirst().get();
+    public Nanoentity findNanoEntityByContextAndName(String context, String name) {
+        return this.nanoEntities.stream().filter(ne -> ne.getContext().equals(context) && ne.getName().equals(name)).findFirst().get();
     }
 
-    public Nanoentity findNanoEntityByNameAndUserSystem(String name, UserSystem userSystem) {
-        return this.nanoEntities.stream().filter(ne -> ne.getName().equals(name) && ne.getUserSystem().equals(userSystem)).findFirst().get();
+    public Nanoentity findNanoEntityByName(String name) {
+        return this.nanoEntities.stream().filter(ne -> ne.getName().equals(name)).findFirst().get();
     }
 
-    public Set<Nanoentity> findNanoEntityByUserSystem(UserSystem userSystem) {
-        return this.nanoEntities.stream().filter(ne -> ne.getUserSystem().equals(userSystem)).collect(Collectors.toSet());
+    public Set<CouplingInstance> findCouplingInstancesByCharacteristic(CouplingCriterionCharacteristic characteristic) {
+        return this.couplingInstances.stream().filter(ci -> ci.getCharacteristic() != null && ci.getCharacteristic().equals(characteristic)).collect(Collectors.toSet());
     }
 
-    public Set<CouplingInstance> findCouplingInstancesByUserSystemAndCharacteristic(UserSystem userSystem, CouplingCriterionCharacteristic characteristic) {
-        return this.couplingInstances.stream().filter(ci -> ci.getUserSystem().equals(userSystem) && ci.getCharacteristic() != null && ci.getCharacteristic().equals(characteristic)).collect(Collectors.toSet());
-    }
-
-    public Set<CouplingInstance> findCouplingInstancesByUserSystem(UserSystem userSystem) {
-        return this.couplingInstances.stream().filter(ci -> ci.getUserSystem().equals(userSystem)).collect(Collectors.toSet());
-    }
-
-    public Map<String, Set<CouplingInstance>> findCouplingInstancesByUserSystemGroupedByCriterionFilteredByCriterionType(UserSystem userSystem, CouplingType couplingType) {
-        return groupByCriterion(findCouplingInstancesByUserSystem(userSystem).stream().filter(instance -> couplingType.equals(instance.getCouplingCriterion().getType())).collect(Collectors.toSet()));
+    public Map<String, Set<CouplingInstance>> findCouplingInstancesGroupedByCriterionFilteredByCriterionType(CouplingType couplingType) {
+        return groupByCriterion(getCouplingInstances().stream().filter(instance -> couplingType.equals(instance.getCouplingCriterion().getType())).collect(Collectors.toSet()));
     }
 
     private Map<String, Set<CouplingInstance>> groupByCriterion(final Set<CouplingInstance> instances) {
