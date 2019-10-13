@@ -211,7 +211,7 @@ publishP2Repo {
     user = System.getenv('BINTRAY_USERNAME')
 }
 
-publishToMavenLocal.finalizedBy(publishP2Repo)
+publish.finalizedBy(publishP2Repo)
 
 test {
     useJUnitPlatform()
