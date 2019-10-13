@@ -188,6 +188,18 @@ platform {
         exclude module: 'junit'
     }
 
+    bundle(group: 'org.graphstream', name: 'gs-core', version: graphstreamVersion) {
+        bnd {
+            instruction 'Import-Package', "!com.sun.net.httpserver,*"
+        }
+    }
+
+    bundle(group: 'com.lowagie', name: 'itext', version: '2.1.5') {
+        bnd {
+            instruction 'Import-Package', "!com.apple.mrj,*"
+        }
+    }
+
     featureId 'org.contextmapper.servicecutter.feature'
     featureName 'Service Cutter Library Feature'
     featureVersion project.version.toString().endsWith('SNAPSHOT') ? project.version.toString().replace("SNAPSHOT", "") + new SimpleDateFormat("YYYYMMddHHmmss").format(new Date()) : project.version.toString()
@@ -198,7 +210,7 @@ platform {
 
     useBndHashQualifiers false
     useFeatureHashQualifiers false
-    defaultQualifier ''
+    defaultQualifier new SimpleDateFormat("YYYYMMddHHmmss").format(new Date())
 }
 
 publishP2Repo {
