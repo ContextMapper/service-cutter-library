@@ -48,7 +48,6 @@ public class ServiceCutterContextBuilder {
     private EntityRelationDiagram entityRelationDiagram;
     private UserRepresentationContainer userRepresentationContainer;
     private SolverConfiguration solverConfiguration;
-    private Long nanoEntityId = 0L;
 
     /**
      * An EntityRelationDiagram instance describing your system is always required. Construct it manually or use the
@@ -241,7 +240,6 @@ public class ServiceCutterContextBuilder {
 
     private Nanoentity createNanoentity(final String context, final String name) {
         Nanoentity nanoentity = new Nanoentity();
-        nanoentity.setId(nanoEntityId++);
         nanoentity.setName(name);
         nanoentity.setContext(context);
         this.context.addNanoEntity(nanoentity);

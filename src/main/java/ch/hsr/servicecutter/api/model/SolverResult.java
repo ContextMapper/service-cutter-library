@@ -10,10 +10,6 @@ public class SolverResult {
 	private List<ServiceRelation> relations;
 	private Map<String, List<String>> useCaseResponsibility;
 
-	public SolverResult() {
-		// Jackson
-	}
-
 	public SolverResult(final Set<Service> services) {
 		this.services = services;
 	}

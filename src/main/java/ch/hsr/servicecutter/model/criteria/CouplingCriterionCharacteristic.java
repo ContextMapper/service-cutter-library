@@ -34,11 +34,6 @@ public class CouplingCriterionCharacteristic {
     }
 
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this.getClass()).add("name", name).add("weight", weight).toString();
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hashCode(name, couplingCriterion);
     }

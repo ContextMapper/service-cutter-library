@@ -10,12 +10,6 @@ public class Characteristic {
 	public Characteristic() {
 	}
 
-	public Characteristic(final String characteristic, final List<String> nanoentities) {
-		super();
-		this.characteristic = characteristic;
-		this.nanoentities = nanoentities;
-	}
-
 	public String getCharacteristic() {
 		return characteristic;
 	}
@@ -30,11 +24,6 @@ public class Characteristic {
 
 	public void setNanoentities(final List<String> nanoentities) {
 		this.nanoentities = nanoentities;
-	}
-
-	@Override
-	public String toString() {
-		return characteristic;
 	}
 
 }

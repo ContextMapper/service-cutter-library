@@ -55,9 +55,4 @@ public class SolverConfiguration {
 		return algorithm;
 	}
 
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(getClass()).add("algorithm", algorithm).add("algorithmParams", algorithmParams).add("priorities", priorities).toString();
-	}
-
 }

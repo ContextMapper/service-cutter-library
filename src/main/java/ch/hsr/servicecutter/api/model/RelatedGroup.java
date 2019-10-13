@@ -9,13 +9,6 @@ public class RelatedGroup {
 
 	// Jackson
 	public RelatedGroup() {
-
-	}
-
-	public RelatedGroup(final List<String> nanoentities, final String name) {
-		super();
-		this.nanoentities = nanoentities;
-		this.name = name;
 	}
 
 	public List<String> getNanoentities() {

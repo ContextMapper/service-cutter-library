@@ -55,7 +55,7 @@ public class ServiceCutter {
     }
 
     public SolverResult generateDecomposition() {
-        if (context.getSolverConfiguration() == null || context.getSolverConfiguration().getPriorities().isEmpty()) {
+        if (context.getSolverConfiguration().getPriorities().isEmpty()) {
             return new SolverResult(Collections.emptySet());
         }
         Solver solver = null;
@@ -75,8 +75,6 @@ public class ServiceCutter {
         log.info("userSystem {} solved, found {} bounded contexts: {}", context.getSystemName(), result.getServices().size(), result.toString());
         if (result.getServices().size() > 0) {
             analyzer.analyseResult(result, scores);
-        } else {
-            log.warn("no services found!");
         }
         return result;
     }

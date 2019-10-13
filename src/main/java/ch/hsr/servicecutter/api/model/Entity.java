@@ -24,17 +24,8 @@ public class Entity {
 		return name;
 	}
 
-	public void addAttribute(final String attribute) {
-		this.nanoentities.add(attribute);
-	}
-
 	public List<String> getNanoentities() {
 		return nanoentities;
-	}
-
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(this.getClass()).add("name", name).toString();
 	}
 
 	@Override

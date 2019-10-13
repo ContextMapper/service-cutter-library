@@ -16,11 +16,6 @@ public class UseCase {
 	public UseCase() {
 	}
 
-	public UseCase(final String name) {
-		super();
-		this.name = name;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -51,17 +46,8 @@ public class UseCase {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "UseCase [nanoentitiesRead=" + nanoentitiesRead + ", nanoentitiesWritten=" + nanoentitiesWritten + ", name=" + name + "]";
-	}
-
 	public boolean isLatencyCritical() {
 		return isLatencyCritical;
-	}
-
-	public void setLatencyCritical(final boolean isLatencyCritical) {
-		this.isLatencyCritical = isLatencyCritical;
 	}
 
 }

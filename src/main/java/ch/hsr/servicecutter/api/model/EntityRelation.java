@@ -1,7 +1,5 @@
 package ch.hsr.servicecutter.api.model;
 
-import com.google.common.base.MoreObjects;
-
 public class EntityRelation {
 	private Entity origin;
 	private Entity destination;
@@ -11,10 +9,15 @@ public class EntityRelation {
 	public EntityRelation() {
 	}
 
-	public EntityRelation(final Entity origin, final Entity destination, final RelationType type) {
-		super();
-		this.origin = origin;
+	public void setDestination(Entity destination) {
 		this.destination = destination;
+	}
+
+	public void setOrigin(Entity origin) {
+		this.origin = origin;
+	}
+
+	public void setType(RelationType type) {
 		this.type = type;
 	}
 
@@ -34,8 +37,4 @@ public class EntityRelation {
 		AGGREGATION, COMPOSITION, INHERITANCE
 	}
 
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(this.getClass()).add("origin", origin).add("destination", destination).add("type", type).toString();
-	}
 }

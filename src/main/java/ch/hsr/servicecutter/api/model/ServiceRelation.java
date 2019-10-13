@@ -15,10 +15,6 @@ public class ServiceRelation {
 	private Set<String> sharedEntities;
 	private Direction direction;
 
-	public ServiceRelation() {
-		// Jackson
-	}
-
 	public ServiceRelation(final Set<String> sharedEntities, final String serviceA, final String serviceB, final Direction direction) {
 		this.sharedEntities = sharedEntities;
 		this.serviceA = serviceA;
