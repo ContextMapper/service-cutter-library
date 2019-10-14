@@ -1,11 +1,13 @@
 package ch.hsr.servicecutter.api.model;
 
-import com.google.common.base.MoreObjects;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.base.Objects;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
 public class Entity {
 	private String name;
 	private List<String> nanoentities;

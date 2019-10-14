@@ -179,13 +179,6 @@ platform {
             instruction 'Bundle-Vendor', 'Context Mapper'
             version = version
         }
-
-        exclude module: 'jackson-databind'
-        exclude module: 'guava'
-        exclude module: 'commons-math'
-        exclude module: 'commons-math3'
-        exclude module: 'slf4j-log4j12'
-        exclude module: 'junit'
     }
 
     bundle(group: 'org.graphstream', name: 'gs-core', version: graphstreamVersion) {
