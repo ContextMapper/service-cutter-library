@@ -180,6 +180,8 @@ platform {
             version = version
         }
         exclude module: 'slf4j-api'
+        exclude module: 'slf4j-log4j12'
+        exclude module: 'log4j'
         exclude module: 'jsr305'
     }
 
@@ -192,12 +194,6 @@ platform {
     bundle(group: 'com.lowagie', name: 'itext', version: '2.1.5') {
         bnd {
             instruction 'Import-Package', "!com.apple.mrj,*"
-        }
-    }
-
-    bundle(group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.28') {
-        bnd {
-            instruction 'Fragment-Host', "org.slf4j.api"
         }
     }
 
