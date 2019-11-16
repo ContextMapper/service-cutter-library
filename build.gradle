@@ -202,7 +202,7 @@ platform {
     }
 
     featureId 'org.contextmapper.servicecutter.feature'
-    featureName 'Service Cutter Library Feature'
+    featureName 'Service Cutter Library'
     featureVersion project.version.toString().endsWith('SNAPSHOT') ? project.version.toString().replace("SNAPSHOT", "") + new SimpleDateFormat("YYYYMMddHHmmss").format(new Date()) : project.version.toString()
     featureProvider 'Context Mapper'
 
