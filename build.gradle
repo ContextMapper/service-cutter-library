@@ -180,6 +180,7 @@ platform {
             version = version
         }
         exclude module: 'slf4j-api'
+        exclude module: 'jsr305'
     }
 
     bundle(group: 'org.graphstream', name: 'gs-core', version: graphstreamVersion) {
