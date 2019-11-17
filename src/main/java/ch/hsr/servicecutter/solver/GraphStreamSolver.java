@@ -63,10 +63,14 @@ public class GraphStreamSolver extends AbstractSolver<Node, Edge> {
 
 		char idGenerator = 'A';
 		Set<Service> services = new HashSet<>();
-		for (List<String> service : families.values()) {
-			services.add(new Service(service, idGenerator++));
+		for (List<String> nanoEntities : families.values()) {
+			Service service = new Service();
+			service.setId(idGenerator++);
+			service.setNanoentities(nanoEntities);
+			services.add(service);
 		}
-		final SolverResult solverResult = new SolverResult(services);
+		final SolverResult solverResult = new SolverResult();
+		solverResult.setServices(services);
 		return solverResult;
 	}
 

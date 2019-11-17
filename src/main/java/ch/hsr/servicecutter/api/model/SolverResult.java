@@ -1,5 +1,6 @@
 package ch.hsr.servicecutter.api.model;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,12 +11,18 @@ public class SolverResult {
 	private List<ServiceRelation> relations;
 	private Map<String, List<String>> useCaseResponsibility;
 
-	public SolverResult(final Set<Service> services) {
-		this.services = services;
+	public SolverResult() {
+		this.services = Collections.emptySet();
+		this.relations = Collections.emptyList();
+		this.useCaseResponsibility = Collections.emptyMap();
 	}
 
 	public Set<Service> getServices() {
 		return services;
+	}
+
+	public void setServices(Set<Service> services) {
+		this.services = services;
 	}
 
 	public void setUseCaseResponsibility(final Map<String, List<String>> responsibilities) {

@@ -56,7 +56,7 @@ public class ServiceCutter {
 
     public SolverResult generateDecomposition() {
         if (context.getSolverConfiguration().getPriorities().isEmpty()) {
-            return new SolverResult(Collections.emptySet());
+            return new SolverResult();
         }
         Solver solver = null;
         SolverAlgorithm algorithm = context.getSolverConfiguration().getAlgorithm();

@@ -49,10 +49,13 @@ public class ResultSerializerTest {
         List<String> nanoentities = new ArrayList<>();
         nanoentities.add("Customer.name");
         nanoentities.add("Customer.address");
-        Service service = new Service(nanoentities, 'A');
+        Service service = new Service();
+        service.setNanoentities(nanoentities);
+        service.setId('A');
         Set<Service> services = new HashSet<>();
         services.add(service);
-        SolverResult result = new SolverResult(services);
+        SolverResult result = new SolverResult();
+        result.setServices(services);
 
         // when
         ResultSerializer serializer = new ResultSerializer();
