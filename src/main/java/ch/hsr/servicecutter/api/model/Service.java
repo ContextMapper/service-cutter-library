@@ -3,6 +3,7 @@ package ch.hsr.servicecutter.api.model;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 
 public class Service {
@@ -22,6 +23,7 @@ public class Service {
 		return nanoentities;
 	}
 
+	@JsonIgnore
 	public String getName() {
 		return "Service " + id;
 	}
