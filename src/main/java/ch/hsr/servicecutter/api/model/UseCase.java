@@ -50,4 +50,7 @@ public class UseCase {
 		return isLatencyCritical;
 	}
 
+	public void setLatencyCritical(boolean latencyCritical) {
+		isLatencyCritical = latencyCritical;
+	}
 }

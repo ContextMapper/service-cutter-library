@@ -4,27 +4,27 @@ import java.util.List;
 
 public class RelatedGroup {
 
-	private String name;
-	private List<String> nanoentities;
+    private String name;
+    private List<String> nanoentities;
 
-	// Jackson
-	public RelatedGroup() {
-	}
+    // Jackson
+    public RelatedGroup() {
+    }
 
-	public List<String> getNanoentities() {
-		return nanoentities;
-	}
+    public List<String> getNanoentities() {
+        return nanoentities;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public void setNanoentities(final List<String> nanoentities) {
-		this.nanoentities = nanoentities;
-	}
+    public void setNanoentities(final List<String> nanoentities) {
+        this.nanoentities = nanoentities;
+    }
 
 }
