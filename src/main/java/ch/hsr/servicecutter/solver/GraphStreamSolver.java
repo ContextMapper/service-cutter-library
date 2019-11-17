@@ -13,7 +13,6 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.*;
 
 public class GraphStreamSolver extends AbstractSolver<Node, Edge> {
@@ -55,11 +54,6 @@ public class GraphStreamSolver extends AbstractSolver<Node, Edge> {
 			families.get(family).add(node.getId());
 		}
 		log.info("found {} families", families.keySet().size());
-		try {
-			graph.write("graph.xml");
-		} catch (IOException e) {
-			log.error("error while writing file", e);
-		}
 
 		char idGenerator = 'A';
 		Set<Service> services = new HashSet<>();
