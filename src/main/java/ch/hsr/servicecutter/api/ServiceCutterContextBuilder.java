@@ -26,10 +26,7 @@ import ch.hsr.servicecutter.solver.SolverConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -121,9 +118,11 @@ public class ServiceCutterContextBuilder {
             if (EntityRelation.RelationType.AGGREGATION.equals(relation.getType())) {
                 CouplingInstance instance = new CouplingInstance(semanticProximity, InstanceType.AGGREGATION);
                 List<Nanoentity> originNanoentities = relation.getOrigin().getNanoentities().stream()
-                        .map(attr -> context.findNanoEntityByContextAndName(relation.getOrigin().getName(), attr)).collect(Collectors.toList());
+                        .filter(attr -> context.findNanoEntityByContextAndName(relation.getOrigin().getName(), attr).isPresent())
+                        .map(attr -> context.findNanoEntityByContextAndName(relation.getOrigin().getName(), attr).get()).collect(Collectors.toList());
                 List<Nanoentity> destinationNanoentities = relation.getDestination().getNanoentities().stream()
-                        .map(attr -> context.findNanoEntityByContextAndName(relation.getDestination().getName(), attr)).collect(Collectors.toList());
+                        .filter(attr -> context.findNanoEntityByContextAndName(relation.getDestination().getName(), attr).isPresent())
+                        .map(attr -> context.findNanoEntityByContextAndName(relation.getDestination().getName(), attr).get()).collect(Collectors.toList());
                 instance.setNanoentities(originNanoentities);
                 instance.setSecondNanoentities(destinationNanoentities);
                 instance.setName(relation.getOrigin().getName() + "." + relation.getDestination().getName());
@@ -221,16 +220,16 @@ public class ServiceCutterContextBuilder {
     private List<Nanoentity> findNanoentities(final List<String> names) {
         List<Nanoentity> nanoentities = new ArrayList<>();
         for (String nanoentityName : names) {
-            Nanoentity nanoentity;
+            Optional<Nanoentity> optNanoentity;
             if (nanoentityName.contains(".")) {
                 String[] splittedName = nanoentityName.split("\\.");
-                nanoentity = context.findNanoEntityByContextAndName(splittedName[0], splittedName[1]);
+                optNanoentity = context.findNanoEntityByContextAndName(splittedName[0], splittedName[1]);
             } else {
-                nanoentity = context.findNanoEntityByName(nanoentityName);
+                optNanoentity = context.findNanoEntityByName(nanoentityName);
             }
 
-            if (nanoentity != null) {
-                nanoentities.add(nanoentity);
+            if (optNanoentity.isPresent()) {
+                nanoentities.add(optNanoentity.get());
             } else {
                 log.warn("nanoentity with name {} not known!", nanoentityName);
             }

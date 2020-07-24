@@ -77,12 +77,12 @@ public class ServiceCutterContext {
         return Collections.unmodifiableSet(nanoEntities);
     }
 
-    public Nanoentity findNanoEntityByContextAndName(String context, String name) {
-        return this.nanoEntities.stream().filter(ne -> ne.getContext().equals(context) && ne.getName().equals(name)).findFirst().get();
+    public Optional<Nanoentity> findNanoEntityByContextAndName(String context, String name) {
+        return this.nanoEntities.stream().filter(ne -> ne.getContext().equals(context) && ne.getName().equals(name)).findFirst();
     }
 
-    public Nanoentity findNanoEntityByName(String name) {
-        return this.nanoEntities.stream().filter(ne -> ne.getName().equals(name)).findFirst().get();
+    public Optional<Nanoentity> findNanoEntityByName(String name) {
+        return this.nanoEntities.stream().filter(ne -> ne.getName().equals(name)).findFirst();
     }
 
     public Set<CouplingInstance> findCouplingInstancesByCharacteristic(CouplingCriterionCharacteristic characteristic) {
