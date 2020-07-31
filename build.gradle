@@ -199,6 +199,12 @@ platform {
         }
     }
 
+    bundle(group: 'org.nlpub', name: 'watset', version: watsetVersion) {
+        bnd {
+            instruction 'Import-Package', "!com.beust.jcommander,!net.razorvine.pickle,!net.razorvine.pickle.objects,*"
+        }
+    }
+
     featureId 'org.contextmapper.servicecutter.feature'
     featureName 'Service Cutter Library'
     featureVersion project.version.toString().endsWith('SNAPSHOT') ? project.version.toString().replace("SNAPSHOT", "") + new SimpleDateFormat("YYYYMMddHHmmss").format(new Date()) : project.version.toString()
