@@ -12,14 +12,14 @@ The library is published to the [Maven central repository](https://search.maven.
 
 **Gradle**:
 ```Gradle
-implementation 'org.contextmapper:service-cutter-library:1.1.5'
+implementation 'org.contextmapper:service-cutter-library:1.2.0'
 ```
 **Maven**:
 ```xml
 <dependency>
   <groupId>org.contextmapper</groupId>
   <artifactId>service-cutter-library</artifactId>
-  <version>1.1.5</version>
+  <version>1.2.0</version>
 </dependency>
 ```
 **Eclipse**:
