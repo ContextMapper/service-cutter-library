@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum SolverAlgorithm {
 
-    LEUNG("Leung"); // default mode for now
+    LEUNG("Leung"), CHINESE_WHISPERS("Chinese Whispers"), MARKOV_CLUSTERING("Markov Clustering");
 
     private String name;
 

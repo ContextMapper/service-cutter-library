@@ -36,7 +36,7 @@ public class SolverConfigurationFactory {
 
     public SolverConfiguration createDefaultConfiguration() {
         SolverConfiguration configuration = new SolverConfiguration();
-        configuration.setAlgorithm(SolverAlgorithm.LEUNG);
+        configuration.setAlgorithm(SolverAlgorithm.MARKOV_CLUSTERING);
 
         configuration.setAlgorithmParam("inflation", 2.0);
         configuration.setAlgorithmParam("power", 1.0);
@@ -45,6 +45,9 @@ public class SolverConfigurationFactory {
         configuration.setAlgorithmParam("numberOfClusters", 3.0);
         configuration.setAlgorithmParam("leungM", 0.1);
         configuration.setAlgorithmParam("leungDelta", 0.55);
+        configuration.setAlgorithmParam("mclExpansionOperations", 2.0);
+        configuration.setAlgorithmParam("mclPowerCoefficient", 2.0);
+        configuration.setAlgorithmParam("cwNodeWeighting", 0.0);
 
         configuration.setPriority(IDENTITY_LIFECYCLE, M);
         configuration.setPriority(SEMANTIC_PROXIMITY, M);

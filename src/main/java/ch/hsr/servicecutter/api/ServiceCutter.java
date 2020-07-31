@@ -20,16 +20,13 @@ import ch.hsr.servicecutter.api.model.SolverResult;
 import ch.hsr.servicecutter.model.solver.EntityPair;
 import ch.hsr.servicecutter.scorer.Score;
 import ch.hsr.servicecutter.scorer.Scorer;
-import ch.hsr.servicecutter.solver.GraphStreamSolver;
-import ch.hsr.servicecutter.solver.Solver;
-import ch.hsr.servicecutter.solver.SolverAlgorithm;
+import ch.hsr.servicecutter.solver.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
 import java.util.Map;
 
-import static ch.hsr.servicecutter.solver.SolverAlgorithm.LEUNG;
+import static ch.hsr.servicecutter.solver.SolverAlgorithm.*;
 
 /**
  * Main class to run generate service decompositions. Runs the internal solver and returns the cutting result.
@@ -66,6 +63,10 @@ public class ServiceCutter {
         });
         if (LEUNG.equals(algorithm)) {
             solver = new GraphStreamSolver(context, scores, context.getSolverConfiguration());
+        } else if (CHINESE_WHISPERS.equals(algorithm)) {
+            solver = new ChineseWhispersSolver(context, scores, context.getSolverConfiguration());
+        } else if (MARKOV_CLUSTERING.equals(algorithm)) {
+            solver = new MarkovSolver(context, scores, context.getSolverConfiguration());
         } else {
             throw new RuntimeException("Algorithm " + algorithm.toString() + " not found!");
         }
