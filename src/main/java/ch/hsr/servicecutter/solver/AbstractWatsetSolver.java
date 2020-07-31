@@ -97,12 +97,13 @@ public abstract class AbstractWatsetSolver extends AbstractSolver<String, Defaul
         alg.fit();
         Collection<Collection<String>> clusterSet = alg.getClusters();
         Set<Service> services = new HashSet<>();
-        char idGenerator = 'A';
+        char id = 'A';
         for (Collection<String> cluster : clusterSet) {
             Service service = new Service();
-            service.setId(idGenerator++);
+            service.setId(id);
             service.setNanoentities(Lists.newLinkedList(cluster));
             services.add(service);
+            id = generateNextServiceId(id);
         }
         SolverResult result = new SolverResult();
         result.setServices(services);

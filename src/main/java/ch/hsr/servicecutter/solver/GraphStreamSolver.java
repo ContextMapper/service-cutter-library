@@ -62,21 +62,11 @@ public class GraphStreamSolver extends AbstractSolver<Node, Edge> {
 			service.setId(id);
 			service.setNanoentities(nanoEntities);
 			services.add(service);
-			id = generateNextId(id);
+			id = generateNextServiceId(id);
 		}
 		final SolverResult solverResult = new SolverResult();
 		solverResult.setServices(services);
 		return solverResult;
-	}
-
-	private char generateNextId(char currentId) {
-		if(currentId == 'Z')
-			return 'a';
-		if(currentId == 'z')
-			return '0';
-		if(currentId == '9')
-			throw new RuntimeException("Result produced too many services. More than 62 services currently not supported.");
-		return ++currentId;
 	}
 
 	/**

@@ -170,4 +170,14 @@ public abstract class AbstractSolver<N, E> implements Solver {
 
 	}
 
+	protected char generateNextServiceId(char currentId) {
+		if(currentId == 'Z')
+			return 'a';
+		if(currentId == 'z')
+			return '0';
+		if(currentId == '9')
+			throw new RuntimeException("Result produced too many services. More than 62 services currently not supported.");
+		return ++currentId;
+	}
+
 }
