@@ -17,10 +17,13 @@ package ch.hsr.servicecutter.api;
 
 import ch.hsr.servicecutter.api.model.SolverResult;
 import ch.hsr.servicecutter.model.criteria.CouplingCriterion;
+import ch.hsr.servicecutter.solver.SolverAlgorithm;
 import ch.hsr.servicecutter.solver.SolverConfiguration;
 import ch.hsr.servicecutter.solver.SolverPriority;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,29 +39,17 @@ public class ServiceCutterTest {
             new File("./src-gen").mkdir();
     }
 
-    @Test
-    public void canCutBookingSystemWithLeung() throws IOException {
+    @ParameterizedTest
+    @EnumSource(value = SolverAlgorithm.class)
+    public void canCutBookingSystem(SolverAlgorithm algorithm) throws IOException {
         // given
         EntityRelationDiagramImporterJSON erdImporterJSON = new EntityRelationDiagramImporterJSON();
         UserRepresentationContainerImporterJSON urImporterJSON = new UserRepresentationContainerImporterJSON();
+        SolverConfiguration config = new SolverConfigurationFactory().createDefaultConfiguration();
+        config.setAlgorithm(algorithm);
         ServiceCutterContext context = new ServiceCutterContextBuilder(erdImporterJSON.createERDFromJSONFile(new File("./src/test/resources/booking_1_model.json")))
-                .withUserRepresentations(urImporterJSON.createUserRepresentationContainerFromJSONFile(new File("./src/test/resources/booking_2_user_representations.json"))).build();
-        ServiceCutter serviceCutter = new ServiceCutter(context);
-
-        // when
-        SolverResult result = serviceCutter.generateDecomposition();
-
-        // then
-        assertTrue(result.getServices().size() > 0);
-    }
-
-    @Test
-    public void canCutDDDSampleWithLeung() throws IOException {
-        // given
-        EntityRelationDiagramImporterJSON erdImporterJSON = new EntityRelationDiagramImporterJSON();
-        UserRepresentationContainerImporterJSON urImporterJSON = new UserRepresentationContainerImporterJSON();
-        ServiceCutterContext context = new ServiceCutterContextBuilder(erdImporterJSON.createERDFromJSONFile(new File("./src/test/resources/ddd_1_model.json")))
-                .withUserRepresentations(urImporterJSON.createUserRepresentationContainerFromJSONFile(new File("./src/test/resources/ddd_2_user_representations.json")))
+                .withUserRepresentations(urImporterJSON.createUserRepresentationContainerFromJSONFile(new File("./src/test/resources/booking_2_user_representations.json")))
+                .withCustomSolverConfiguration(config)
                 .build();
         ServiceCutter serviceCutter = new ServiceCutter(context);
 
@@ -69,13 +60,38 @@ public class ServiceCutterTest {
         assertTrue(result.getServices().size() > 0);
     }
 
-    @Test
-    public void canCutTradingSystemWithLeung() throws IOException {
+    @ParameterizedTest
+    @EnumSource(value = SolverAlgorithm.class)
+    public void canCutDDDSample(SolverAlgorithm algorithm) throws IOException {
         // given
         EntityRelationDiagramImporterJSON erdImporterJSON = new EntityRelationDiagramImporterJSON();
         UserRepresentationContainerImporterJSON urImporterJSON = new UserRepresentationContainerImporterJSON();
+        SolverConfiguration config = new SolverConfigurationFactory().createDefaultConfiguration();
+        config.setAlgorithm(algorithm);
+        ServiceCutterContext context = new ServiceCutterContextBuilder(erdImporterJSON.createERDFromJSONFile(new File("./src/test/resources/ddd_1_model.json")))
+                .withUserRepresentations(urImporterJSON.createUserRepresentationContainerFromJSONFile(new File("./src/test/resources/ddd_2_user_representations.json")))
+                .withCustomSolverConfiguration(config)
+                .build();
+        ServiceCutter serviceCutter = new ServiceCutter(context);
+
+        // when
+        SolverResult result = serviceCutter.generateDecomposition();
+
+        // then
+        assertTrue(result.getServices().size() > 0);
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = SolverAlgorithm.class)
+    public void canCutTradingSystem(SolverAlgorithm algorithm) throws IOException {
+        // given
+        EntityRelationDiagramImporterJSON erdImporterJSON = new EntityRelationDiagramImporterJSON();
+        UserRepresentationContainerImporterJSON urImporterJSON = new UserRepresentationContainerImporterJSON();
+        SolverConfiguration config = new SolverConfigurationFactory().createDefaultConfiguration();
+        config.setAlgorithm(algorithm);
         ServiceCutterContext context = new ServiceCutterContextBuilder(erdImporterJSON.createERDFromJSONFile(new File("./src/test/resources/trading_1_model.json")))
                 .withUserRepresentations(urImporterJSON.createUserRepresentationContainerFromJSONFile(new File("./src/test/resources/trading_2_user_representations.json")))
+                .withCustomSolverConfiguration(config)
                 .build();
         ServiceCutter serviceCutter = new ServiceCutter(context);
 

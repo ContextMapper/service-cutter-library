@@ -39,8 +39,10 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4jVersion
     compile group: 'com.google.guava', name: 'guava', version: guavaVersion
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
+    compile group: 'org.nlpub', name: 'watset', version: watsetVersion
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitVersion
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: jUnitVersion
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: jUnitVersion
     testImplementation group: 'org.hamcrest', name: 'hamcrest', version: hamcrestVersion
 }

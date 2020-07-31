@@ -15,7 +15,6 @@
  */
 package ch.hsr.servicecutter.api;
 
-import ch.hsr.servicecutter.model.criteria.CouplingCriterion;
 import ch.hsr.servicecutter.solver.SolverAlgorithm;
 import ch.hsr.servicecutter.solver.SolverConfiguration;
 import ch.hsr.servicecutter.solver.SolverPriority;
@@ -55,7 +54,7 @@ public class SolverConfigurationFactoryTest {
     }
 
     private void assertDefaultConfiguration(SolverConfiguration configuration) {
-        assertEquals(SolverAlgorithm.LEUNG, configuration.getAlgorithm());
+        assertEquals(SolverAlgorithm.MARKOV_CLUSTERING, configuration.getAlgorithm());
 
         assertEquals(2, configuration.getAlgorithmParams().get("inflation"));
         assertEquals(1, configuration.getAlgorithmParams().get("power"));

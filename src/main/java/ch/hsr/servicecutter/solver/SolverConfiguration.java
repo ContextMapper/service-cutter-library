@@ -11,48 +11,56 @@ import com.google.common.base.MoreObjects;
 
 public class SolverConfiguration {
 
-	private Map<String, Double> algorithmParams = new HashMap<>();
-	private Map<String, SolverPriority> priorities = new HashMap<>();
-	private SolverAlgorithm algorithm = SolverAlgorithm.LEUNG; // default for now
+    private Map<String, Double> algorithmParams = new HashMap<>();
+    private Map<String, SolverPriority> priorities = new HashMap<>();
+    private SolverAlgorithm algorithm = SolverAlgorithm.MARKOV_CLUSTERING;
 
-	private Logger log = LoggerFactory.getLogger(SolverConfiguration.class);
+    private Logger log = LoggerFactory.getLogger(SolverConfiguration.class);
 
-	public SolverConfiguration() {
-	}
+    public SolverConfiguration() {
+    }
 
-	public void setAlgorithmParam(final String param, final Double value) {
-		algorithmParams.put(param, value);
-	}
+    public void setAlgorithmParam(final String param, final Double value) {
+        algorithmParams.put(param, value);
+    }
 
-	public Map<String, SolverPriority> getPriorities() {
-		return priorities;
-	}
+    public Map<String, SolverPriority> getPriorities() {
+        return priorities;
+    }
 
-	public void setPriority(final String criterionType, final SolverPriority priority) {
-		if (priority == null) {
-			throw new InvalidParameterException();
-		}
-		priorities.put(criterionType, priority);
-	}
+    public void setPriority(final String criterionType, final SolverPriority priority) {
+        if (priority == null) {
+            throw new InvalidParameterException();
+        }
+        priorities.put(criterionType, priority);
+    }
 
-	public Map<String, Double> getAlgorithmParams() {
-		return algorithmParams;
-	}
+    public Map<String, Double> getAlgorithmParams() {
+        return algorithmParams;
+    }
 
-	public SolverPriority getPriorityForCouplingCriterion(final String criterionType) {
-		if (!priorities.containsKey(criterionType)) {
-			log.error("no priority defined for couplingCriterion: " + criterionType + ". Use 1");
-			return SolverPriority.S;
-		}
-		return priorities.get(criterionType);
-	}
+    public SolverPriority getPriorityForCouplingCriterion(final String criterionType) {
+        if (!priorities.containsKey(criterionType)) {
+            log.error("no priority defined for couplingCriterion: " + criterionType + ". Use 1");
+            return SolverPriority.S;
+        }
+        return priorities.get(criterionType);
+    }
 
-	public void setAlgorithm(final SolverAlgorithm algorithm) {
-		this.algorithm = algorithm;
-	}
+    public Double getValueForAlgorithmParam(final String key, final Double defaultValue) {
+        if (!algorithmParams.containsKey(key)) {
+            log.warn("no value defined for algorithm param: " + key + ". Use default value: " + defaultValue);
+            return defaultValue;
+        }
+        return algorithmParams.get(key);
+    }
 
-	public SolverAlgorithm getAlgorithm() {
-		return algorithm;
-	}
+    public void setAlgorithm(final SolverAlgorithm algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public SolverAlgorithm getAlgorithm() {
+        return algorithm;
+    }
 
 }
