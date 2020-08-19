@@ -56,13 +56,11 @@ public class SolverConfigurationFactoryTest {
     private void assertDefaultConfiguration(SolverConfiguration configuration) {
         assertEquals(SolverAlgorithm.MARKOV_CLUSTERING, configuration.getAlgorithm());
 
-        assertEquals(2, configuration.getAlgorithmParams().get("inflation"));
-        assertEquals(1, configuration.getAlgorithmParams().get("power"));
-        assertEquals(0, configuration.getAlgorithmParams().get("prune"));
-        assertEquals(0, configuration.getAlgorithmParams().get("extraClusters"));
-        assertEquals(3, configuration.getAlgorithmParams().get("numberOfClusters"));
         assertEquals(0.1, configuration.getAlgorithmParams().get("leungM"));
         assertEquals(0.55, configuration.getAlgorithmParams().get("leungDelta"));
+        assertEquals(0.0, configuration.getAlgorithmParams().get("cwNodeWeighting"));
+        assertEquals(2.0, configuration.getAlgorithmParams().get("mclExpansionOperations"));
+        assertEquals(2.0, configuration.getAlgorithmParams().get("mclPowerCoefficient"));
 
         assertEquals(SolverPriority.M, configuration.getPriorities().get(IDENTITY_LIFECYCLE));
         assertEquals(SolverPriority.M, configuration.getPriorities().get(SEMANTIC_PROXIMITY));

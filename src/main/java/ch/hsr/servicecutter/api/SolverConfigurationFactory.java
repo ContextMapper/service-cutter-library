@@ -38,11 +38,6 @@ public class SolverConfigurationFactory {
         SolverConfiguration configuration = new SolverConfiguration();
         configuration.setAlgorithm(SolverAlgorithm.MARKOV_CLUSTERING);
 
-        configuration.setAlgorithmParam("inflation", 2.0);
-        configuration.setAlgorithmParam("power", 1.0);
-        configuration.setAlgorithmParam("prune", 0.0);
-        configuration.setAlgorithmParam("extraClusters", 0.0);
-        configuration.setAlgorithmParam("numberOfClusters", 3.0);
         configuration.setAlgorithmParam("leungM", 0.1);
         configuration.setAlgorithmParam("leungDelta", 0.55);
         configuration.setAlgorithmParam("mclExpansionOperations", 2.0);

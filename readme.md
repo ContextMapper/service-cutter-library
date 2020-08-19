@@ -83,13 +83,11 @@ With the _ch.hsr.servicecutter.api.SolverConfigurationFactory_ you can also crea
 ```json
 {
   "algorithmParams": {
-    "inflation": 2,
-    "power": 1,
-    "prune": 0,
-    "extraClusters": 0,
-    "numberOfClusters": 3,
     "leungM": 0.1,
-    "leungDelta": 0.55
+    "leungDelta": 0.55,
+    "cwNodeWeighting": 1.0,
+    "mclExpansionOperations": 2.0,
+    "mclPowerCoefficient": 2.0
   },
   "priorities": {
     "Identity & Lifecycle Commonality": "M",
