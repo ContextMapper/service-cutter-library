@@ -1,3 +1,4 @@
+![Context Mapper](https://raw.githubusercontent.com/wiki/ContextMapper/context-mapper-dsl/logo/cm-logo-github-small.png) 
 # Service Cutter Library
 [![Build Status](https://travis-ci.com/ContextMapper/service-cutter-library.svg?branch=master)](https://travis-ci.com/ContextMapper/service-cutter-library) [![codecov](https://codecov.io/gh/ContextMapper/service-cutter-library/branch/master/graph/badge.svg)](https://codecov.io/gh/ContextMapper/service-cutter-library) [![Maven Central](https://img.shields.io/maven-central/v/org.contextmapper/service-cutter-library.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.contextmapper%22%20AND%20a:%22service-cutter-library%22) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
 
