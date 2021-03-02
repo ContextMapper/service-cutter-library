@@ -1,4 +1,4 @@
-name: Release Context Mapper Discovery Library
+name: Release Service Cutter Library
 
 on:
   push:
