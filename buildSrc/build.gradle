@@ -1,0 +1,16 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+   runtime subprojects.findAll { it.getTasksByName("jar", false) }
+}

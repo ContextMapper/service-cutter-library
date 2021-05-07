@@ -6,7 +6,6 @@ buildscript {
     }
     dependencies {
         classpath 'org.standardout:bnd-platform:1.7.0'
-        classpath 'com.github.missedone:gradle-bintray-p2-plugin:1.2.0'
     }
 }
 
@@ -18,7 +17,7 @@ plugins {
     id 'nebula.release' version '13.0.0'
 }
 apply plugin: 'org.standardout.bnd-platform'
-apply plugin: 'bintray-p2'
+apply plugin: 'p2-plugin'
 
 group 'org.contextmapper'
 
@@ -213,6 +212,8 @@ platform {
     categoryName 'Service Cutter Library'
     categoryId 'org.contextmapper.servicecutter.library'
 
+    eclipseMirror 'https://ftp.fau.de/eclipse/technology/epp/downloads/release/2020-03/R/eclipse-java-2020-03-R-linux-gtk-x86_64.tar.gz'
+    downloadsDir new File(buildDir, 'eclipse')
     useBndHashQualifiers false
     useFeatureHashQualifiers false
     defaultQualifier new SimpleDateFormat("YYYYMMddHHmmss").format(new Date())
@@ -224,8 +225,9 @@ publishP2Repo {
     mainFeatureId = 'org.contextmapper.servicecutter.feature'
     compositePackage = ''
     subCompositeStrategy = 'MICRO'
-    apiKey = System.getenv('BINTRAY_API_KEY')
-    user = System.getenv('BINTRAY_USERNAME')
+    apiUrl = 'https://contextmapper.jfrog.io'
+    apiKey = System.getenv('ARTIFACTORY_API_KEY')
+    user = System.getenv('ARTIFACTORY_USERNAME')
 }
 
 publish.finalizedBy(publishP2Repo)
