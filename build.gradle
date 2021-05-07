@@ -212,6 +212,8 @@ platform {
     categoryName 'Service Cutter Library'
     categoryId 'org.contextmapper.servicecutter.library'
 
+    eclipseMirror 'https://ftp.fau.de/eclipse/technology/epp/downloads/release/2020-03/R/eclipse-java-2020-03-R-linux-gtk-x86_64.tar.gz'
+    downloadsDir new File(buildDir, 'eclipse')
     useBndHashQualifiers false
     useFeatureHashQualifiers false
     defaultQualifier new SimpleDateFormat("YYYYMMddHHmmss").format(new Date())
