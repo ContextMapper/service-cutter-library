@@ -26,8 +26,8 @@ implementation 'org.contextmapper:service-cutter-library:1.2.1'
 **Eclipse**:
 
 Since we use the library inside our [Context Mapper](https://contextmapper.org) Eclipse plugin, we also need it as Eclipse feature (OSGi bundle) in a P2 repository. Thus, we provide the following two Eclipse update sites for snapshots (master builds) and releases:
- * https://dl.bintray.com/contextmapper/service-cutter-library-snapshots/ (latest snapshot: [ ![Download](https://api.bintray.com/packages/contextmapper/service-cutter-library-snapshots/updatesites/images/download.svg) ](https://dl.bintray.com/contextmapper/service-cutter-library-snapshots))
- * https://dl.bintray.com/contextmapper/service-cutter-library-releases/ (latest release: [ ![Download](https://api.bintray.com/packages/contextmapper/service-cutter-library-releases/updatesites/images/download.svg) ](https://dl.bintray.com/contextmapper/service-cutter-library-releases))
+ * https://contextmapper.jfrog.io/artifactory/service-cutter-library-snapshots/
+ * https://contextmapper.jfrog.io/artifactory/service-cutter-library-releases/
 
 ## Input
 As in the original Service Cutter tool there are two input models which you need to generate service decompositions with the library:
