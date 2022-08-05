@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
     
     steps:
     - uses: actions/checkout@v2
@@ -29,8 +29,22 @@ jobs:
           ${{ runner.os }}-gradle-
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    - name: Configure GPG Key
+      run: |
+        mkdir -p ~/.gnupg/
+        printf "$GPG_SIGNING_KEY" | base64 --decode > ~/.gnupg/private.key
+        gpg --import --batch ~/.gnupg/private.key
+      env:
+        GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
     - name: Build with Gradle
-      run: ./gradlew clean build snapshot
+      run: ./gradlew clean build snapshot publish -Psigning.keyId=${GPG_KEY_ID} -Psigning.password=${GPG_KEY_PASSPHRASE} -Psigning.secretKeyRingFile=/home/runner/.gnupg/private.key
+      env:
+        GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+        GPG_KEY_PASSPHRASE: ${{ secrets.GPG_KEY_PASSPHRASE }}
+        OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        ARTIFACTORY_API_KEY: ${{ secrets.ARTIFACTORY_API_KEY }}
+        ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
 
