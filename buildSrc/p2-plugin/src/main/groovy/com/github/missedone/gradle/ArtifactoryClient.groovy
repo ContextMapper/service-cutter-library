@@ -106,8 +106,8 @@ class ArtifactoryClient {
         assert repoName != null
         assert targetPath != null
 
-        def baseUri = 'https://dl.bintray.com/'
-        def artifactUri = "/${repoOwner}/${repoName}/${targetPath}"
+        def baseUri = "https://${repoOwner}.jfrog.io/artifactory/"
+        def artifactUri = "${repoName}/${targetPath}"
         println "Downloading file $baseUri$artifactUri ..."
 
         def http = BintrayHttpClientFactory.create(baseUri, user, apiKey)
@@ -122,7 +122,7 @@ class ArtifactoryClient {
                 }
             }
             response.failure = { resp, reader ->
-                throw new IOException("Failed to download [$apiUrl$uri.path]: $resp.statusLine $reader")
+                throw new IOException("Failed to download [$baseUri$artifactUri]: $resp.statusLine $reader")
             }
         }
     }
