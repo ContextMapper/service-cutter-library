@@ -21,8 +21,8 @@ apply plugin: 'p2-plugin'
 
 group 'org.contextmapper'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 if (!project.hasProperty('signing.secretKeyRingFile')) {
     project.ext.'signing.secretKeyRingFile' = "${rootDir}/secret-key.gpg"
@@ -35,7 +35,7 @@ repositories {
 dependencies {
     compile group: 'org.graphstream', name: 'gs-core', version: graphstreamVersion
     compile group: 'org.graphstream', name: 'gs-algo', version: graphstreamVersion
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4jVersion
+    compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
     compile group: 'com.google.guava', name: 'guava', version: guavaVersion
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
     compile group: 'org.nlpub', name: 'watset', version: watsetVersion
@@ -212,7 +212,7 @@ platform {
     categoryName 'Service Cutter Library'
     categoryId 'org.contextmapper.servicecutter.library'
 
-    eclipseMirror 'https://ftp.fau.de/eclipse/technology/epp/downloads/release/2020-03/R/eclipse-java-2020-03-R-linux-gtk-x86_64.tar.gz'
+    eclipseMirror 'https://ftp.fau.de/eclipse/technology/epp/downloads/release/2022-06/R/eclipse-java-2022-06-R-linux-gtk-x86_64.tar.gz'
     downloadsDir new File(buildDir, 'eclipse')
     useBndHashQualifiers false
     useFeatureHashQualifiers false
