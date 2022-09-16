@@ -204,6 +204,12 @@ platform {
         }
     }
 
+    bundle(group: 'junit', name: 'junit', version: '4.12') {
+        bnd {
+            instruction 'Import-Package', "!org.hamcrest,!org.hamcrest.core,*"
+        }
+    }
+
     featureId 'org.contextmapper.servicecutter.feature'
     featureName 'Service Cutter Library'
     featureVersion project.version.toString().endsWith('SNAPSHOT') ? project.version.toString().replace("SNAPSHOT", "") + new SimpleDateFormat("YYYYMMddHHmmss").format(new Date()) : project.version.toString()
